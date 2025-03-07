@@ -22,6 +22,19 @@ namespace DBL.entityManager
             DataTable tb = dbManager.executedatatable("select * from user");
             return mapdatafromentitytolist(tb);
         }
+        public static User getuserbyemail(string email)
+        {
+            string query = "select * from Users where Email = @email";
+            Dictionary<string, object> prms = new Dictionary<string, object>
+            {
+                { "email", email}
+            };
+          DataTable tb =   dbManager.executedatatable(query,prms);
+
+            return fromdatarowtouser(tb.Rows[0]);
+
+
+        }
 
         public static bool Register(User newUser)
         {

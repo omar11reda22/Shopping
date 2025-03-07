@@ -43,6 +43,11 @@ namespace Shopping
                 if (userlogin != null)
                 {
                     MessageBox.Show("login succes");
+                    this.Hide();
+                    // here wanna to send userid in ctor to another form 
+                    User u = UserManager.getuserbyemail(email);
+                    AllProduct allProduct = new AllProduct(u.UserID);
+                    allProduct.Show(); 
                 }
                 else
                 {

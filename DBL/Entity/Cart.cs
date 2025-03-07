@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace DBL.Entity
 {
-    internal class Cart
+    public class Cart
     {
+        public int CartID { get; set; }
+        public int UserID { get; set; }
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public int Quantity { get; set; }
+        public DateTime AddedAt { get; set; }
     }
 }

@@ -63,7 +63,10 @@ namespace Shopping
                 if (isRegistered)
                 {
                     MessageBox.Show("User registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close(); // Close the form after successful registration
+                    this.Close();
+                    AllProduct allProduct = new AllProduct();
+                    allProduct.Show(); 
+                    // Close the form after successful registration
                 }
                 else
                 {

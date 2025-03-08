@@ -10,6 +10,8 @@ namespace DBL.Entity
     {
         public int OrderID { get; set; }
         public int UserID { get; set; }
+        public string Username { get; set; }
+        public string ProductName { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }
         public string Status { get; set; }

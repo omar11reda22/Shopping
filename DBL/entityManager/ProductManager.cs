@@ -1,6 +1,7 @@
 ﻿using DAL;
 using DBL.Entity;
 using DBL.EntityList;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,6 +20,52 @@ namespace DBL.entityManager
         {
             DataTable tb = dbManager.executedatatable("SELECT * FROM Products");
             return MapDataFromEntityToList(tb);
+        }
+
+        // generate a method to mod stock on any product 
+
+        public static bool changeproduct(int productid , int stock)
+        {
+            string query = "Update from Products set stock = @stock where ProductID = @productid";
+            Dictionary<string, object> prms = new Dictionary<string, object>
+            {
+                {"@productid" ,productid },
+                {"@stock" ,stock }
+            };
+             
+           int result =  dbManager.ExecuteNonQuery(query, prms);
+            return result > 0;  // result tru 
+        }
+        // generate a method to delete any product 
+
+        public static bool deleteproduct(int productid)
+        {
+            string query = "delete from Products where ProductID = @productid";
+
+            Dictionary<string, object> prms = new Dictionary<string, object> {
+                {"@productid" ,productid}
+            };
+
+            int result =  dbManager.ExecuteNonQuery(query, prms);
+            return result > 0; // delete done 
+
+        }
+
+        // generate a method to add a new product to admin 
+
+        public static bool addnewproduct(Product product)
+        {
+            string query = "insert into Products (Name , Description , Price , Stock) values (@name , @description , @price , @stock)";
+            Dictionary<string, object> prms = new Dictionary<string, object> {
+
+                { "@name",product.Name },
+                {"@description" ,product.Description },
+                {"@price" ,product.Price },
+                {"@stock" ,product.Stock }
+            
+            };
+            int result =  dbManager.ExecuteNonQuery(query, prms);
+            return result > 0;    
         }
 
         // Map DataTable to ProductList

@@ -51,7 +51,7 @@ namespace Shopping
                 }
                 else
                 {
-                    MessageBox.Show("this email not found please register");
+                    MessageBox.Show("this email not found please register or inactive");
                 }
 
 

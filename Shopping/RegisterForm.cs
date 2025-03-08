@@ -64,7 +64,7 @@ namespace Shopping
                 {
                     MessageBox.Show("User registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
-                    AllProduct allProduct = new AllProduct();
+                    AllProduct allProduct = new AllProduct(newUser.UserID);
                     allProduct.Show(); 
                     // Close the form after successful registration
                 }

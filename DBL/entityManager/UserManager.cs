@@ -22,6 +22,10 @@ namespace DBL.entityManager
             DataTable tb = dbManager.executedatatable("select * from user");
             return mapdatafromentitytolist(tb);
         }
+
+        // create a 2 method to change status [inactive] - usertype [admin]
+
+
         public static User getuserbyemail(string email)
         {
             string query = "select * from Users where Email = @email";
@@ -104,6 +108,33 @@ namespace DBL.entityManager
 
         }
 
+        // Change UserType (Customer ↔ Admin)
+        public static bool ChangeUserType(int userId)
+        {
+            string query = "UPDATE Users SET UserType = CASE WHEN UserType = 'Customer' THEN 'Admin' ELSE 'Customer' END WHERE UserID = @userId";
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+    {
+        { "@userId", userId }
+    };
+
+            int result = dbManager.ExecuteNonQuery(query, parameters);
+            return result > 0; // Returns true if update is successful
+        }
+
+        // Change Status (Active ↔ Inactive)
+        public static bool ToggleUserStatus(int userId)
+        {
+            string query = "UPDATE Users SET Status = CASE WHEN Status = 'Active' THEN 'Inactive' ELSE 'Active' END WHERE UserID = @userId";
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+    {
+        { "@userId", userId }
+    };
+
+            int result = dbManager.ExecuteNonQuery(query, parameters);
+            return result > 0; // Returns true if update is successful
+        }
 
     }
 }

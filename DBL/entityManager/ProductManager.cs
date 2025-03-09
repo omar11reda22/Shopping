@@ -109,5 +109,25 @@ namespace DBL.entityManager
 
             return product;
         }
+
+
+        public static bool ProductExists(string productName)
+        {
+            string query = "SELECT COUNT(*) FROM Products WHERE Name = @name";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+    {
+        { "@name", productName }
+    };
+
+            object result = dbManager.ExecuteNonQuery(query, parameters);
+
+            if (result != null && int.TryParse(result.ToString(), out int count))
+            {
+                return count > 0; // Returns true if product exists
+            }
+
+            return false;
+        }
+
     }
 }

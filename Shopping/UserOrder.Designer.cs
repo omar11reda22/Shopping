@@ -1,8 +1,7 @@
 ﻿namespace Shopping
 {
-    partial class AllProduct
+    partial class UserOrder
     {
-        
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -30,63 +29,32 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            linkLabel1 = new LinkLabel();
-            linkLabel2 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(83, 78);
+            dataGridView1.Location = new Point(129, 38);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(631, 267);
+            dataGridView1.Size = new Size(530, 326);
             dataGridView1.TabIndex = 0;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
-            // linkLabel1
-            // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(629, 23);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(74, 20);
-            linkLabel1.TabIndex = 1;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "go to cart";
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
-            // 
-            // linkLabel2
-            // 
-            linkLabel2.AutoSize = true;
-            linkLabel2.Location = new Point(83, 23);
-            linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(93, 20);
-            linkLabel2.TabIndex = 2;
-            linkLabel2.TabStop = true;
-            linkLabel2.Text = "go to profile";
-            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
-            // 
-            // AllProduct
+            // UserOrder
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(linkLabel2);
-            Controls.Add(linkLabel1);
             Controls.Add(dataGridView1);
-            Name = "AllProduct";
-            Text = "AllProduct";
-            Load += AllProduct_Load;
+            Name = "UserOrder";
+            Text = "UserOrder";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private DataGridView dataGridView1;
-        private LinkLabel linkLabel1;
-        private LinkLabel linkLabel2;
     }
 }

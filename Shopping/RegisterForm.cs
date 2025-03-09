@@ -65,7 +65,7 @@ namespace Shopping
                     MessageBox.Show("User registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                     AllProduct allProduct = new AllProduct(newUser.UserID);
-                    allProduct.Show(); 
+                    allProduct.Show();
                     // Close the form after successful registration
                 }
                 else
@@ -88,9 +88,14 @@ namespace Shopping
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Hide(); 
+            this.Hide();
             LoginForm lg = new LoginForm();
-            lg.Show(); 
+            lg.Show();
+        }
+
+        private void RegisterForm_Load(object sender, EventArgs e)
+        {
+            passwordtxt.PasswordChar = '*'; 
         }
     }
 }

@@ -17,21 +17,22 @@ namespace Shopping
         public AllOrders()
         {
             InitializeComponent();
+            dataGridView1.CellClick += dataGridView1_CellClick; // ✅ Ensure event is wired
         }
 
         private void AllOrders_Load(object sender, EventArgs e)
         {
-            orderList o = new orderList();
-            o = orderManager.getallorders(); 
-            dataGridView1.DataSource = o;
+            dataGridView1.DataSource = orderManager.getallorders();
 
-            DataGridViewButtonColumn approveButton = new DataGridViewButtonColumn();
-            approveButton.Name = "ApproveOrder";
-            approveButton.HeaderText = "Approve";
-            approveButton.Text = "Approve";
-            approveButton.UseColumnTextForButtonValue = true;
-            dataGridView1.Columns.Add(approveButton);
-
+            if (dataGridView1.Columns["ApproveOrder"] == null) // ✅ Prevent duplicate button column
+            {
+                DataGridViewButtonColumn approveButton = new DataGridViewButtonColumn();
+                approveButton.Name = "ApproveOrder";
+                approveButton.HeaderText = "Approve";
+                approveButton.Text = "Approve";
+                approveButton.UseColumnTextForButtonValue = true;
+                dataGridView1.Columns.Add(approveButton);
+            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -42,22 +43,20 @@ namespace Shopping
 
                 if (orderManager.changeorderstatus(orderId))
                 {
-                    MessageBox.Show("Order approved successfully!");
+                    MessageBox.Show("Order approved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshData();
                 }
                 else
                 {
-                    MessageBox.Show("Failed to approve order.");
+                    MessageBox.Show("Failed to approve order.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        // Refresh DataGridView
         private void RefreshData()
         {
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = orderManager.getallorders();
         }
-
     }
 }

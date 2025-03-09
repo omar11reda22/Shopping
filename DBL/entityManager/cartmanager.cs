@@ -15,6 +15,58 @@ namespace DBL.entityManager
     {
         static DBManager DBManager = new DBManager();
 
+        // wanna to check if product already exist or not 
+        // get all products in cart by user id 
+        public static bool IsProductInCart(int userID, int productID)
+        {
+            string query = "SELECT COUNT(*) FROM Cart WHERE UserID = @UserID AND ProductID = @ProductID";
+
+            Dictionary<string, object> prms = new Dictionary<string, object> {
+                {"@UserID",userID },
+                {"@ProductID" ,productID }
+
+            }; 
+         int result = DBManager.ExecuteNonQuery(query, prms);
+            return result > 0; 
+            
+        }
+
+        // if product already exist update stock 
+
+        public static bool UpdateCartQuantity(int userID, int productID, int additionalQuantity)
+        {
+            string query = "UPDATE Cart SET Quantity = Quantity + @AdditionalQuantity WHERE UserID = @UserID AND ProductID = @ProductID";
+
+            Dictionary<string, object> prms = new Dictionary<string, object> {
+                { "@UserID",userID },
+                {"@ProductID",productID },
+                { "@AdditionalQuantity",additionalQuantity }
+            
+            };
+
+            int resilt = DBManager.ExecuteNonQuery(query, prms);
+            return resilt > 0; 
+           
+            
+        }
+
+
+        // create a method to delete from cart [delete product on cart by userid]
+
+        public static bool deletefromcart(int productid , int userid)
+        {
+            string query = "delete from cart where ProductID = @productid and UserID = @userid";
+
+            Dictionary<string, object> prms = new Dictionary<string, object> {
+                {"@productid" ,productid},
+                { "@userid",userid }
+            };
+            int result = DBManager.ExecuteNonQuery(query, prms);
+            return result > 0; 
+        }
+
+
+
         public static bool AddToCart(int userID, int productID, int quantity)
         {
         
@@ -38,7 +90,7 @@ namespace DBL.entityManager
         public static CartList getcartbyuserid(int userid)
         {
             CartList cts = new CartList();
-            string query = "SELECT Cart.CartID, Cart.Quantity, Products.Name FROM Cart                            JOIN Products ON Products.ProductID = Cart.ProductID                                          WHERE Cart.UserID = @UserID";
+            string query = "select c.CartID , p.Name , c.Quantity , c.AddedAt from Cart c join Products p on c.ProductID = p.ProductID where c.UserID = @userid";
             Dictionary<string, object> prm = new Dictionary<string, object> 
             {
                 { "@UserID",userid }
@@ -60,7 +112,9 @@ namespace DBL.entityManager
             {
                 CartID = Convert.ToInt32(row["CartID"]),
                 Quantity = Convert.ToInt32(row["Quantity"]),
-                ProductName = row["Name"].ToString()
+                ProductName = row["Name"].ToString(),
+                AddedAt = Convert.ToDateTime(row["AddedAt"])
+                
             };
         }
 

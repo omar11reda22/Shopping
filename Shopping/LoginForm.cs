@@ -46,8 +46,15 @@ namespace Shopping
                     this.Hide();
                     // here wanna to send userid in ctor to another form 
                     User u = UserManager.getuserbyemail(email);
-                    AllProduct allProduct = new AllProduct(u.UserID);
-                    allProduct.Show(); 
+                    if (u.UserType == "Admin")
+                    {
+                        Admin a = new Admin();
+                        a.Show();
+                    }
+                    else {
+                        AllProduct allProduct = new AllProduct(u.UserID);
+                        allProduct.Show();
+                    }
                 }
                 else
                 {
@@ -78,7 +85,7 @@ namespace Shopping
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-
+            passwordtxt.PasswordChar = '*';
         }
     }
 }

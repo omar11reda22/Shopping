@@ -46,32 +46,72 @@ namespace Shopping
                 if (e.ColumnIndex == dataGridView1.Columns["AddToCart"].Index && e.RowIndex >= 0)
                 {
                     int productID = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["ProductID"].Value);
+                    int availableStock = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Stock"].Value);
 
-                    // Call CartManager to add product to cart
-                    bool success = cartmanager.AddToCart(userID, productID, 1); // Default quantity 1
+                    // Show input box for quantity
+                    string input = Microsoft.VisualBasic.Interaction.InputBox("Enter quantity:", "Add to Cart", "1");
 
-                    if (success)
+                    if (int.TryParse(input, out int quantity) && quantity > 0)
                     {
-                        MessageBox.Show("Product added to cart successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (quantity <= availableStock)
+                        {
+                            // Check if product is already in cart
+                            bool productExists = cartmanager.IsProductInCart(userID, productID);
+
+                            if (productExists)
+                            {
+                                // Update the quantity if product is already in cart
+                                bool updated = cartmanager.UpdateCartQuantity(userID, productID, quantity);
+                                if (updated)
+                                {
+                                    MessageBox.Show("Product quantity updated in cart successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Failed to update product quantity in cart.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                            else
+                            {
+                                // Add new product to cart if not already present
+                                bool success = cartmanager.AddToCart(userID, productID, quantity);
+                                if (success)
+                                {
+                                    MessageBox.Show("Product added to cart successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Failed to add product to cart.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Entered quantity exceeds available stock!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Failed to add product to cart.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Invalid quantity!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Sorry Cant add to Cart it something is wrong");
+                MessageBox.Show("Sorry, can't add to cart. Something went wrong.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Hide();
+            //this.Hide();
             Cart c = new Cart(userID);
             c.Show();
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
         }
     }
 }

@@ -58,7 +58,7 @@ namespace DBL.entityManager
 
         public static bool changeorderstatus(int orderid)
         {
-            string query = "update Order set Status = 'Shipped' where OrderID = @orderid";
+            string query = "update Orders set Status = 'Shipped' where OrderID = @orderid";
             Dictionary<string, object> prms = new Dictionary<string, object> {
                 { "@orderid",orderid}
             };

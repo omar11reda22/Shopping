@@ -19,7 +19,7 @@ namespace DBL.entityManager
         // get all users 
         public static UserList selectallusers()
         {
-            DataTable tb = dbManager.executedatatable("select * from user");
+            DataTable tb = dbManager.executedatatable("select * from Users");
             return mapdatafromentitytolist(tb);
         }
 

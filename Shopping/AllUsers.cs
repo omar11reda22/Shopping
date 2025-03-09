@@ -17,6 +17,7 @@ namespace Shopping
         public AllUsers()
         {
             InitializeComponent();
+            dataGridView1.CellClick += dataGridView1_CellClick;
         }
 
         private void AllUsers_Load(object sender, EventArgs e)

@@ -26,7 +26,7 @@ namespace DBL.entityManager
 
         public static bool changeproduct(int productid , int stock)
         {
-            string query = "Update from Products set stock = @stock where ProductID = @productid";
+            string query = "Update  Products set stock = @stock where ProductID = @productid";
             Dictionary<string, object> prms = new Dictionary<string, object>
             {
                 {"@productid" ,productid },

@@ -41,6 +41,7 @@
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(818, 385);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // button1
             // 
@@ -56,7 +57,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(998, 482);
+            ClientSize = new Size(945, 498);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
             Name = "Adminproducts";

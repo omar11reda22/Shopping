@@ -49,6 +49,7 @@
             Controls.Add(dataGridView1);
             Name = "UserOrder";
             Text = "UserOrder";
+            Load += UserOrder_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }

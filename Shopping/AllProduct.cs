@@ -111,7 +111,8 @@ namespace Shopping
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            UserOrder u = new UserOrder(userID);
+            u.Show();   
         }
     }
 }

@@ -86,9 +86,73 @@ INSERT INTO Orders (UserID, TotalAmount)
 VALUES (2, 2222.00); 
 
 INSERT INTO Cart (UserID, ProductID, Quantity) VALUES
-(2, 1, 1),  -- 1 Laptop
-(2, 2, 2),  -- 2 Smartphones
-(2, 3, 1);  -- 1 Headphone
+(4, 1, 1),  -- 1 Laptop
+(4, 2, 2),  -- 2 Smartphones
+(4, 3, 2);  -- 1 Headphone
+use ShopDB
+select * from cart
+
+delete from cart 
+where ProductID = 5 and UserID = 4
+
+ 
+
+select Cart.CartID , Cart.Quantity , Products.Name  from Cart
+join Products
+on Products.ProductID = Cart.ProductID
+where UserID = 2
+
+select * from Users
+
+select * from products
+insert into Products (Name , Description , Price , Stock) values ()
+select * from Orders
+
+select o.OrderID , u.UserName , o.OrderDate , o.TotalAmount , o.Status
+from Orders o join Users u 
+on o.UserID = u.UserID
+
+select * from OrderDetails
+
+select * from Users
+
+update Users
+set UserType = 'Admin'
+where UserID = 3
+
+update Orders 
+
+
+update Users 
+set Status = 'Active' 
+where UserID = 4
+
+select * from Users
+
+select * from Cart
+select c.CartID , p.Name , c.Quantity , c.AddedAt
+from Cart c join Products p 
+on c.ProductID = p.ProductID
+where c.UserID = 4
+update Users
+set UserType = 'customer'
+where UserID = 4
+
+select o.OrderID , u.UserName , p.Name ,  o.OrderDate , o.TotalAmount , o.Status
+from Orders o join Users u 
+on o.UserID = u.UserID 
+join OrderDetails d 
+on d.OrderID = o.OrderID
+join Products p 
+on d.ProductID = p.ProductID
+
+
+
+
+
+
+
+
 
 select * from Users
 select * from Cart
@@ -219,7 +283,13 @@ END;
 GO
 drop procedure ProcessOrder
 
-exec ProcessOrder @UserID = 2
+select * from Cart
+
+
+
+exec ProcessOrder @UserID = 4
+
+exec process
 
 
 select * from Cart
@@ -229,5 +299,7 @@ select * from OrderDetails
 select * from Orders
 
 select * from Users
+
+select * from Products
 
 drop database ShopDB

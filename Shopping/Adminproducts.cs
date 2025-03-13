@@ -54,24 +54,36 @@ namespace Shopping
 
             string columnName = dataGridView1.Columns[e.ColumnIndex].Name;
             int productID = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["ProductID"].Value);
+            int currentStock = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Stock"].Value);
+            decimal currentPrice = Convert.ToDecimal(dataGridView1.Rows[e.RowIndex].Cells["Price"].Value);
 
             if (columnName == "UpdateStock")
             {
-                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter new stock quantity:", "Update Stock", "0");
+                string input = Microsoft.VisualBasic.Interaction.InputBox($"Enter new stock quantity (Current: {currentStock}):", "Update Stock", currentStock.ToString());
+                string inputPrice = Microsoft.VisualBasic.Interaction.InputBox($"Enter new price (Current: {currentPrice}):", "Update Price", currentPrice.ToString());
 
-                if (int.TryParse(input, out int newStock) && newStock >= 0)
+                if (int.TryParse(input, out int newStock) && newStock >= 0 &&
+                    decimal.TryParse(inputPrice, out decimal newPrice) && newPrice >= 0)
                 {
-                    ProductManager.changeproduct(productID, newStock);
-                    MessageBox.Show("Stock updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ProductManager.changeproduct(productID, newStock, newPrice);
+                    MessageBox.Show("Stock and price updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadProducts();
                 }
                 else
                 {
-                    MessageBox.Show("Invalid stock value!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Invalid stock or price value!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else if (columnName == "DeleteProduct")
             {
+                bool isPending = ProductManager.IsProductInPendingOrder(productID);
+
+                if (isPending)
+                {
+                    MessageBox.Show("This product is in a pending order and cannot be deleted!", "Deletion Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 DialogResult confirm = MessageBox.Show("Are you sure you want to delete this product?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (confirm == DialogResult.Yes)

@@ -1,6 +1,7 @@
 ﻿using DAL;
 using DBL.Entity;
 using DBL.EntityList;
+using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -24,22 +25,26 @@ namespace DBL.entityManager
 
         // generate a method to mod stock on any product 
 
-        public static bool changeproduct(int productid , int stock)
+        public static bool changeproduct(int productID, int newStock, decimal newPrice)
         {
-            string query = "Update  Products set stock = @stock where ProductID = @productid";
-            Dictionary<string, object> prms = new Dictionary<string, object>
-            {
-                {"@productid" ,productid },
-                {"@stock" ,stock }
+            // Update query to modify stock and price
+            string query = "UPDATE Products SET Stock = @Stock, Price = @Price WHERE ProductID = @ProductID";
+
+            Dictionary<string, object> prms = new Dictionary<string, object> {
+                { "@ProductID",productID},
+                {"@Stock",newStock },
+                {"@Price",newPrice }
             };
-             
-           int result =  dbManager.ExecuteNonQuery(query, prms);
-            return result > 0;  // result tru 
+          int result =  dbManager.ExecuteNonQuery(query, prms);
+            return result > 0;
         }
+
         // generate a method to delete any product 
 
         public static bool deleteproduct(int productid)
         {
+            // wanna to check if this product in order pending or not if pending not allow 
+
             string query = "delete from Products where ProductID = @productid";
 
             Dictionary<string, object> prms = new Dictionary<string, object> {
@@ -50,6 +55,24 @@ namespace DBL.entityManager
             return result > 0; // delete done 
 
         }
+
+        public static bool IsProductInPendingOrder(int productID)
+        {
+            string query = @"
+        SELECT COUNT(*)
+        FROM OrderDetail od
+        INNER JOIN Orders o ON od.OrderID = o.OrderID
+        WHERE od.ProductID = @ProductID AND o.Status = 'Pending'";
+
+            Dictionary<string, object> prms = new Dictionary<string, object>
+         {
+             {"@ProductID",productID }
+         };
+            int result = dbManager.ExecuteNonQuery(query, prms);
+            return result > 0; 
+
+        }
+
 
         // generate a method to add a new product to admin 
 
